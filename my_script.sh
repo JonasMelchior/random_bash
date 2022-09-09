@@ -17,161 +17,67 @@ function box_out()
   tput sgr 0
 }
 
-gen_vertical_line1(){
-	echo "					  |
-					  |
-					  |
-					  |
-					  |
-					  |
-					  |
-					  |
-					  |
-					  |
-					  |
-					  |
-					  |
-					  |
-					  |
-					  |
-					  |
-					  |
-					  |
-					  |
-					  |
-					  |
-					  |
-					  |
-					  |
-					  |
-					  |
-					  |
-					  |
-					  |
-					  |
-					  |
-					  |
-					  |
-					  |
-					  |
-					  |
-					  |
-					  |
-					  |
-					  |
-					  |
-					  |
-						 "
-
-}
-
-gen_vertical_line2(){
-	echo "				  |
-												  |
-												  |
-												  |
-												  |
-												  |
-												  |
-												  |
-												  |
-												  |
-												  |
-												  |
-												  |
-												  |
-												  |
-												  |
-												  |
-												  |
-												  |
-												  |
-												  |
-												  |
-												  |
-												  |
-												  |
-												  |
-												  |
-												  |
-												  |
-												  |
-												  |
-												  |
-												  |
-												  |
-												  |
-												  |
-												  |
-												  |
-												  |
-												  |
-												  |
-												  |
-												  |
-						 "
-
-}
-
 
 
 while true
 do
-	tput clear
-	cat weather_symbol.txt
+	
 
-	tput cup 0 0
-	gen_vertical_line1
-	tput cup 0 70
-	gen_vertical_line2
+	tput clear
+	#cat weather_symbol.txt
+
+
+
 	
-	
-	tput cup 0 50
-	tput setaf 5
+	tput setaf 1
 	tput bold
 	echo "Gurkefars weather channel (Lyngby)"
 	tput sgr0	
 		
-	tput cup 1 50
-	tput setaf 5
+	tput setaf 1
 	echo "###################################"
 	tput sgr0
 
-	tput cup 3 50
 	tput setaf 3
 	echo "Temperature:"
 	tput sgr0
 	#Maybe do some logic with API call
 	
-	tput cup 4 50
-	echo "<API get request temperature>: "
+	weather=$(curl -s "https://api.openweathermap.org/data/2.5/weather?lat=55.777130&lon=12.535870&appid=b3bcec57e407349e5301d8144a8eacdc&units=metric")
+	echo $weather | jq -r '.main.temp' 
 	tput sgr0
 
-	tput cup 6 50
 	tput setaf 2
 	echo "Humidity:"
 	tput sgr0
 	#Maybe do some logic with API call
 	
-	tput cup 7 50
-	echo "<API get request humidity>: "
+	echo $weather | jq -r '.main.humidity' 
 	tput sgr0
 
-	tput cup 9 50
-	tput setaf 4
-	echo "Rain:"
+	tput setaf 2
+	echo "Pressure:"
 	tput sgr0
 	#Maybe do some logic with API call
 	
-	tput cup 10 50
-	echo "<API get request rain percentage>: "
+	echo $weather | jq -r '.main.pressure' 
 	tput sgr0
 
 	
-	tput cup 43 0
+	tput setaf 6
+	echo "Wind:"
+	tput sgr0
+	#Maybe do some logic with API call
+	
+	echo $weather | jq -r '.wind.speed' 
+	tput sgr0
+
+	
 	current_date=$(date) 
 
 	box_out Date: $current_date
+
+	
 
 
 	sleep 5
